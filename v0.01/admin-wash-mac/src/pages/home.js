@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "../App.css";
 import { authService } from "../configs/auth";
@@ -20,12 +20,14 @@ export default function Home() {
   const [employees, setEmployees] = useState([]);
   const stateEmployees = useSelector(selectEmployees);
   const dispatch= useDispatch();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     dispatch(fetchGetEmployees());
-    setEmployees(stateEmployees.data)
-  }, [dispatch]);
+    const employeesData = setEmployees(stateEmployees.data)
+    
+  }, [dispatch.employeesData]);
 
   return (
     <>
@@ -127,9 +129,7 @@ export default function Home() {
                         <Link>
                           <button className="btn btn-success me-1">Update</button>
                         </Link>
-                        <Link>
-                          <button className="btn btn-danger me-1">Delete</button>
-                        </Link>
+                        <button className="btn btn-danger me-1" onClick={()=>APIEmployees.deleteEmployee(val.id).then(()=> navigate(0))}>Delete</button>
                       </td>
                     </tr>
                   </>)}
