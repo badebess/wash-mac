@@ -14,13 +14,20 @@ import {
 import { APIEmployees } from "../apis/APIEmployees";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetEmployees, selectEmployees } from "../store/employees/indexEployeesSplice";
+import { message } from "antd";
 
 
-export default function Home() {
+export default function AddEmployee() {
   const [employees, setEmployees] = useState([]);
   const stateEmployees = useSelector(selectEmployees);
   const dispatch= useDispatch();
   const navigate = useNavigate();
+
+  const [nama, setNama] = useState();
+  const [alamat, setAlamat] = useState();
+  const [noHp, setNoHp] = useState();
+  const [portofoiio, setPortofoiio] = useState("Belum Ada");
+  const [schedule, setSchedule] = useState(["Belum ada jadwal"]);
 
 
   useEffect(() => {
@@ -28,6 +35,17 @@ export default function Home() {
     const employeesData = setEmployees(stateEmployees.data)
     
   }, [dispatch.employeesData]);
+
+  function AddNewEmployee(e) {
+    e.preventDefault();
+    try {
+      APIEmployees.addEmployee({name: nama, address: alamat,phoneNumber: noHp,portofolio:portofoiio,schedule: schedule});
+      message.success("created employee successful");
+    } catch (error) {
+      console.error(error);
+			message.error("something went wrong");
+    }
+  }
 
   return (
     <>
@@ -57,19 +75,20 @@ export default function Home() {
                 <NavLink exact to="/" activeClassName="activeClicked">
                   <div
                     className="d-flex justify-content-between mb-0 navBar"
-                    style={{ backgroundColor: "#3A4750" }}
                   >
                     <CDBSidebarMenuItem>List</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                <NavLink exact to="/tables" activeClassName="activeClicked">
-                  <div className="d-flex justify-content-between my-0 navBar">
+                <NavLink exact to="/add-employee" activeClassName="activeClicked">
+                  <div className="d-flex justify-content-between my-0 navBar"
+                   style={{ backgroundColor: "#3A4750" }}
+                  >
                     <CDBSidebarMenuItem>Add</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                <NavLink exact to="/profile" activeClassName="activeClicked">
+                <NavLink exact to="/schedule-employee" activeClassName="activeClicked">
                   <div className="d-flex justify-content-between navBar">
                     <CDBSidebarMenuItem>Schedule</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
@@ -101,41 +120,27 @@ export default function Home() {
           className="px-3"
           style={{ backgroundColor: "#EEE", width: "100%" }}
         >
-          <div className="text-center mt-2 mb-3 py-1" style={{backgroundColor:"#D9D9D9"}}>
-            <h2>Employee List</h2>
-          </div>
-          
-          <div>
-              <table style={{width:"100%",backgroundColor:"#E7E7E7"}} className="border border-3">
-                <thead style={{backgroundColor:"#D9D9D9"}} className="mb-2">
-                  <tr className="text-center">
-                    <th className="fs-5">Name</th>
-                    <th className="fs-5">Alamat</th>
-                    <th className="fs-5">No.HP</th>
-                    <th className="fs-5">Actions</th>
-                  </tr>
-                </thead>
-                {console.log(employees)}
-                {stateEmployees.status === "loading" && <p style={{width:"100%"}} className="text-center">Loading...</p>}
-                {stateEmployees.status === "success" && (
-                <tbody>
-                  {employees && employees.map((val,index) => 
-                  <>
-                    <tr key={index} className="text-center" style={{backgroundColor:"rgba(238, 238, 238, 0.93)"}}>
-                      <td key={index}>{val.name}</td>
-                      <td key={index}>{val.address}</td>
-                      <td key={index}>0{val.phoneNumber}</td>
-                      <td key={index}>
-                        <Link>
-                          <button className="btn btn-success me-1">Update</button>
-                        </Link>
-                        <button className="btn btn-danger me-1" onClick={()=>APIEmployees.deleteEmployee(val.id).then(()=> navigate(0))}>Delete</button>
-                      </td>
-                    </tr>
-                  </>)}
-                </tbody>
-              )}
-            </table>
+          <div style={{backgroundColor:"#D9D9D9", height: "100%"}}> 
+            <div className="text-center mb-3 py-1" >
+              <h2>Add Employee</h2>
+            </div>
+            <div style={{backgroundColor:"rgba(238, 238, 238, 0.93)", height:"90%"}} className="mx-4">
+                <form className="fs-4 pb-2"style={{paddingLeft:"50px", paddingRight:"50px"}} onSubmit={(e)=>AddNewEmployee(e)}>
+                  <label htmlFor="name" className="form-label mt-4">Nama</label>
+                  <input type="text" className="form-control" style={{width:"600px"}} onChange={(e)=>setNama(e.target.value)}></input>
+                  <label htmlFor="name" className="form-label mt-4">Alamat</label>
+                  <input type="text" className="form-control" style={{width:"600px"}} onChange={(e)=>setAlamat(e.target.value)}></input>
+                  <label htmlFor="name" className="form-label mt-4">No.HP</label>
+                  <div className="col-12 pb-4">
+                    <span className="position-absolute mt-2 ms-3 fs-6">0</span>
+                    <input type="number" className="form-control ps-4" style={{width:"600px"}} onChange={(e)=>setNoHp(e.target.value)}></input>
+                  </div>
+                  <label htmlFor="name" className="form-label mt-4">Portofolio</label>
+                  <textarea className="form-control" style={{maxHeight:"199px",minHeight:"199px"}} value={portofoiio}></textarea>
+                  <button className="btn btn-primary form-control mt-2" type="submit">Add</button>
+                  
+                </form>
+            </div>
           </div>
               
         </div>
