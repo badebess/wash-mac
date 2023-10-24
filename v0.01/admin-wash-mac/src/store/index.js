@@ -4,10 +4,12 @@ import persistStore from "redux-persist/lib/persistStore";
 import persistReducer from "redux-persist/lib/persistReducer";
 import storage from "redux-persist/lib/storage";
 
-import employees from '../store/employees/indexEployeesSplice'
+import employees from '../store/employees/indexEployeesSplice';
+import employee from '../store/employee/indexEployeeSplice';
 
 const rootReducers = combineReducers({
     employees,
+    employee,
 });
 
 const persistConfig = { key: "root", storage, backlist: ["task"] };
