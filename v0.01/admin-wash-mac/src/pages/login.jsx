@@ -15,20 +15,20 @@ export const Login = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  
-  console.log(auth?.currentUser?.email);
 
-  const signIn = async () => {
+  const signIn = async (e) => {
+    e.preventDefault();
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       const {idToken, refreshToken} = (result._tokenResponse);
       authService.storeCredentialsToCookie({idToken, refreshToken});
-      navigate('/');
+      setTimeout(()=>{navigate('/'); console.log("dijalankan");}, 2000);
     } catch (err) {
       alert(err)
       console.error(err);
     }
   };
+
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -45,18 +45,20 @@ export const Login = () => {
     <div>
       <div className="position-absolute top-50 start-50 translate-middle text-center border p-2" style={{width:"500px"}}>
         <h3>Login</h3>
-        <input placeholder="Email.." className="form-control" onChange={(e) => setEmail(e.target.value)} />
-        <input
-          type="password"
-          placeholder="Password.."
-          className="form-control mt-1"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="btn btn-primary form-control mt-2" onClick={signIn}> SignIn</button>
-        <Button className="btn btn-primary form-control mt-2" onClick={signInWithGoogle} icon={<GoogleOutlined />}> SignIn with google</Button>
-        <button className="btn btn-link mt-1"> 
-          <Link to="/signup">SignUp</Link>
-        </button>
+        <form>
+          <input placeholder="Email.." className="form-control" onChange={(e) => setEmail(e.target.value)} />
+          <input
+            type="password"
+            placeholder="Password.."
+            className="form-control mt-1"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="btn btn-primary form-control mt-2" onClick={(e)=>signIn(e)}> SignIn</button>
+          <Button className="btn btn-primary form-control mt-2" onClick={signInWithGoogle} icon={<GoogleOutlined />}> SignIn with google</Button>
+          <button className="btn btn-link mt-1"> 
+            <Link to="/signup">SignUp</Link>
+          </button>
+        </form>
 
       </div>
     </div>
