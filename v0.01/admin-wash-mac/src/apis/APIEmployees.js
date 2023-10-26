@@ -21,7 +21,6 @@ export const APIEmployees = {
         ...doc.data(),
         id: doc.id,
       }));
-      console.log("API calls succesful: ");
       return employees;
     } catch (error) {
       message.error("login failed. your email or password is wrong!");
@@ -34,16 +33,14 @@ export const APIEmployees = {
       const result = docSnap.data();
       return result;
     } catch (error) {
-      console.log(error);
+      throw new Error (error);
     }
   },
   addEmployee: async (employee) => {
     try {
       const employeeRef = await addDoc(collection(db, "employee"), employee);
-      console.log("Document written with ID: ", employeeRef.id);
       return employeeRef;
     } catch (e) {
-      console.error("Error adding document: ", e);
       throw new Error(e);
     }
   },
@@ -51,9 +48,8 @@ export const APIEmployees = {
     try {
       const employeeRef = doc(db, "employee", id);
       await deleteDoc(employeeRef);
-      return "Successfully deleted employee";
+      alert ("Successfully deleted employee");
     } catch (e) {
-      console.log("Error deleting employee: ", e);
       throw new Error(e);
     }
   },
@@ -61,11 +57,8 @@ export const APIEmployees = {
     try {
       const docRef = doc(db, "employee", id);
       await updateDoc(docRef, data).then(() => {
-        console.log("data has been updated");
       });
     } catch (error) {
-      alert("error update document:", error);
-      console.error(error);
       throw new Error(error);
     }
   },
