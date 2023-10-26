@@ -14,39 +14,52 @@ import {
 import { APIEmployees } from "../apis/APIEmployees";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
-import { fetchGetEmployeeById, selectEmployee } from "../store/employee/indexEployeeSplice";
-
+import {
+  fetchGetEmployeeById,
+  selectEmployee,
+} from "../store/employee/indexEployeeSplice";
 
 export default function DetailEmployee() {
-
   const stateEmployee = useSelector(selectEmployee);
-  const dispatch= useDispatch();
-  const {id}= useParams();
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  
-  
   useEffect(() => {
     dispatch(fetchGetEmployeeById(id));
-  }, [dispatch,id]);
-  
-  const [nama, setNama] = useState(stateEmployee.data.name);
-  const [alamat, setAlamat] = useState(stateEmployee.data.address);
-  const [noHp, setNoHp] = useState(stateEmployee.data.phoneNumber);
-  const [portofolio, setPortofolio] = useState(stateEmployee.data.portofolio);
-  const [schedule, setSchedule] = useState(stateEmployee.data.schedule);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (stateEmployee.status === "success") {
+      setNama(stateEmployee.data.name);
+      setAlamat(stateEmployee.data.address);
+      setNoHp(stateEmployee.data.phoneNumber);
+      setPortofolio(stateEmployee.data.portofolio);
+      setSchedule(stateEmployee.data.schedule);
+    }
+  }, [stateEmployee.data]);
+
+  const [nama, setNama] = useState();
+  const [alamat, setAlamat] = useState();
+  const [noHp, setNoHp] = useState();
+  const [portofolio, setPortofolio] = useState();
+  const [schedule, setSchedule] = useState();
   const [inputChange, setInputChange] = useState(false);
 
   function UpdateData(e) {
     e.preventDefault();
     try {
-      APIEmployees.updateEmployee(id,{name: nama, address: alamat,phoneNumber: noHp,portofolio:portofolio,schedule: schedule});
-      message.success('Data berhasil di update !').then(()=>navigate(`/`));
-      
-      
+      APIEmployees.updateEmployee(id, {
+        name: nama,
+        address: alamat,
+        phoneNumber: noHp,
+        portofolio: portofolio,
+        schedule: schedule,
+      });
+      message.success("Data berhasil di update !").then(() => navigate(`/`));
     } catch (error) {
       console.log(error);
-      message.error('Ada yang tidak benar !')
+      message.error("Ada yang tidak benar !");
     }
   }
 
@@ -75,22 +88,22 @@ export default function DetailEmployee() {
             </CDBSidebarMenuItem>
             <CDBSidebarContent className="sidebar-content my-0 py-0">
               <CDBSidebarMenu className="pt-0">
-                <NavLink exact to="/" activeClassName="activeClicked">
-                  <div
-                    className="d-flex justify-content-between mb-0 navBar"
-                  >
+                <hr />
+                <NavLink to="/">
+                  <div className="d-flex justify-content-between mb-0 navBar">
                     <CDBSidebarMenuItem>List</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                <NavLink exact to="/add-employee" activeClassName="activeClicked">
-                  <div className="d-flex justify-content-between my-0 navBar"
-                  >
+           
+                <NavLink to="/add-employee">
+                  <div className="d-flex justify-content-between my-0 navBar">
                     <CDBSidebarMenuItem>Add</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                <NavLink exact to="/schedule-employee" activeClassName="activeClicked">
+                
+                <NavLink to="/schedule-employee">
                   <div className="d-flex justify-content-between navBar">
                     <CDBSidebarMenuItem>Schedule</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
@@ -105,8 +118,8 @@ export default function DetailEmployee() {
                   padding: "20px 5px",
                 }}
               >
+                <hr />
                 <NavLink
-                  activeClassName="activeClicked"
                   style={{ color: "white" }}
                   onClick={() => authService.logOut()}
                 >
@@ -122,37 +135,110 @@ export default function DetailEmployee() {
           className="px-3"
           style={{ backgroundColor: "#EEE", width: "100%" }}
         >
-          <div style={{backgroundColor:"#D9D9D9", height: "100%"}}> 
-            <div className="text-center mb-3 py-1" >
+          <div style={{ backgroundColor: "#D9D9D9", height: "100%" }}>
+            <div className="text-center mb-3 py-1">
               <h2>Employee Detail</h2>
             </div>
-            <div style={{backgroundColor:"rgba(238, 238, 238, 0.93)", height:"90%"}} className="mx-4">
-              {stateEmployee.status === "loading" && <p style={{width:"100%"}}>Loading...</p>}
-              {stateEmployee.status === "success" && (
-                <form className="fs-4 pb-2" style={{paddingLeft:"50px", paddingRight:"50px"}} onSubmit={(e)=>UpdateData(e)}>
-                  <label htmlFor="name" className="form-label mt-4">Nama</label>
-                  <input type="text" className="form-control" style={{width:"600px"}} value={nama} onChange={(e)=>{setInputChange(true);setNama(e.target.value)}}></input>
-                  <label htmlFor="name" className="form-label mt-4">Alamat</label>
-                  <input type="text" className="form-control" style={{width:"600px"}} value={alamat} onChange={(e)=>{setInputChange(true);setAlamat(e.target.value)}}></input>
-                  <label htmlFor="name" className="form-label mt-4">No.HP</label>
-                  <div className="col-12 pb-4">
-                    <span className="position-absolute mt-2 ms-3 fs-6">0</span>
-                    <input type="number" className="form-control ps-4" style={{width:"600px"}} value={noHp} onChange={(e)=>{setInputChange(true);setNoHp(e.target.value)}}></input>
-                  </div>
-                  <label htmlFor="name" className="form-label mt-4">Portofolio</label>
-                  <textarea className="form-control" style={{maxHeight:"150px",minHeight:"150px"}} value={portofolio} onChange={(e)=>{setInputChange(true);setPortofolio(e.target.value)}}></textarea>
-                  
-                  {inputChange == false ? "" : <button className="btn btn-primary form-control mt-2" type="submit">Update</button>}
 
-                </form>
-
+            <div
+              style={{
+                backgroundColor: "rgba(238, 238, 238, 0.93)",
+                height: "90%",
+              }}
+              className="mx-4"
+            >
+              {stateEmployee.status === "loading" && (
+                <p style={{ width: "100%" }}>Loading...</p>
               )}
-                <Link to={'/'}>
-                  <button className="btn btn-primary form-control mt-2" type="submit">Back</button>
-                </Link>
+              {stateEmployee.status === "success" && (
+                <>
+                  <div>
+                    <form
+                      className="fs-4 pb-2"
+                      style={{ paddingLeft: "50px", paddingRight: "50px" }}
+                      onSubmit={(e) => UpdateData(e)}
+                    >
+                      <label htmlFor="name" className="form-label mt-4">
+                        Nama
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        style={{ width: "600px" }}
+                        value={nama}
+                        onChange={(e) => {
+                          setInputChange(true);
+                          setNama(e.target.value);
+                        }}
+                      ></input>
+                      <label htmlFor="name" className="form-label mt-4">
+                        Alamat
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        style={{ width: "600px" }}
+                        value={alamat}
+                        onChange={(e) => {
+                          setInputChange(true);
+                          setAlamat(e.target.value);
+                        }}
+                      ></input>
+                      <label htmlFor="name" className="form-label mt-4">
+                        No.HP
+                      </label>
+                      <div className="col-12 pb-4">
+                        <span className="position-absolute mt-2 ms-3 fs-6">
+                          0
+                        </span>
+                        <input
+                          type="number"
+                          className="form-control ps-4"
+                          style={{ width: "600px" }}
+                          value={noHp}
+                          onChange={(e) => {
+                            setInputChange(true);
+                            setNoHp(e.target.value);
+                          }}
+                        ></input>
+                      </div>
+                      <label htmlFor="name" className="form-label mt-4">
+                        Portofolio
+                      </label>
+                      <textarea
+                        className="form-control"
+                        style={{ maxHeight: "150px", minHeight: "150px" }}
+                        value={portofolio}
+                        onChange={(e) => {
+                          setInputChange(true);
+                          setPortofolio(e.target.value);
+                        }}
+                      ></textarea>
+
+                      {inputChange == false ? (
+                        ""
+                      ) : (
+                        <button
+                          className="btn btn-primary form-control mt-2"
+                          type="submit"
+                        >
+                          Update
+                        </button>
+                      )}
+                    </form>
+                  </div>
+                </>
+              )}
+              <Link to={"/"}>
+                <button
+                  className="btn btn-primary form-control mt-2"
+                  type="submit"
+                >
+                  Back
+                </button>
+              </Link>
             </div>
           </div>
-              
         </div>
       </div>
     </>
