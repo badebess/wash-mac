@@ -52,7 +52,7 @@ export default function Home() {
             </CDBSidebarMenuItem>
             <CDBSidebarContent className="sidebar-content my-0 py-0">
               <CDBSidebarMenu className="pt-0">
-              <hr />
+                <hr />
                 <NavLink to="/">
                   <div
                     className="d-flex justify-content-between mb-0 navBar"
@@ -62,17 +62,24 @@ export default function Home() {
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                
+
                 <NavLink to="/add-employee">
                   <div className="d-flex justify-content-between my-0 navBar">
                     <CDBSidebarMenuItem>Add</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                
+
                 <NavLink to="/schedule-employee">
                   <div className="d-flex justify-content-between navBar">
                     <CDBSidebarMenuItem>Schedule</CDBSidebarMenuItem>
+                    <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
+                  </div>
+                </NavLink>
+
+                <NavLink to="/Wash-MAC-AI">
+                  <div className="d-flex justify-content-between navBar">
+                    <CDBSidebarMenuItem>Wash MAC AI (Beta)</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
@@ -134,7 +141,7 @@ export default function Home() {
                 )}
 
                 {stateEmployees.status === "success" &&
-                  stateEmployees &&
+                  stateEmployees.data &&
                   stateEmployees.data.map((val, index) => (
                     <tr
                       val={val}

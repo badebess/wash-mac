@@ -22,7 +22,7 @@ export const Login = () => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       const {idToken, refreshToken} = (result._tokenResponse);
       authService.storeCredentialsToCookie({idToken, refreshToken});
-      setTimeout(()=>{navigate('/'); console.log("dijalankan");}, 2000);
+      navigate('/');
     } catch (err) {
       alert(err)
       console.error(err);

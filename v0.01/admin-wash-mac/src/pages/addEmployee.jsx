@@ -81,25 +81,32 @@ export default function AddEmployee() {
               <CDBSidebarMenu className="pt-0">
                 <hr />
                 <NavLink to="/">
-                  <div
-                    className="d-flex justify-content-between mb-0 navBar"
-                    >
+                  <div className="d-flex justify-content-between mb-0 navBar">
                     <CDBSidebarMenuItem>List</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-                
+
                 <NavLink to="/add-employee">
-                  <div className="d-flex justify-content-between my-0 navBar"style={{ backgroundColor: "#3A4750" }}
+                  <div
+                    className="d-flex justify-content-between my-0 navBar"
+                    style={{ backgroundColor: "#3A4750" }}
                   >
                     <CDBSidebarMenuItem>Add</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
-               
+
                 <NavLink to="/schedule-employee">
                   <div className="d-flex justify-content-between navBar">
                     <CDBSidebarMenuItem>Schedule</CDBSidebarMenuItem>
+                    <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
+                  </div>
+                </NavLink>
+
+                <NavLink to="/Wash-MAC-AI">
+                  <div className="d-flex justify-content-between navBar">
+                    <CDBSidebarMenuItem>Wash MAC AI (Beta)</CDBSidebarMenuItem>
                     <CDBSidebarMenuItem>{">"}</CDBSidebarMenuItem>
                   </div>
                 </NavLink>
