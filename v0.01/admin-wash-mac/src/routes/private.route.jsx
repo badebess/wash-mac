@@ -6,7 +6,7 @@ import { Layout } from "../components/layout";
 import { Login } from "../pages/login";
 
 export function PrivateRoute() {
-  if (!authService.isAuthorized()) return <Login />;
+  if (!authService.isAuthorized()) return <Unauthorized />;
 
   return (
     <Layout>
