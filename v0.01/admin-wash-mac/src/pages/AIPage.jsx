@@ -58,6 +58,7 @@ export default function AIPage() {
 
   return (
     <>
+    {console.log()}
       <div className="wrapper d-flex align-items-stretch">
         <nav
           style={{
