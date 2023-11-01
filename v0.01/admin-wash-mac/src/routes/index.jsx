@@ -10,6 +10,7 @@ import DetailEmployee from "../pages/detailEmployee";
 import ScheduleEmployee from "../pages/scheduleEmployee";
 import ScheduleDetailEmployee from "../pages/scheduleDetailEmployee ";
 import AIPage from "../pages/AIPage";
+import { NotFoundPage } from "../pages/404NotFound";
 
 
 
@@ -23,11 +24,12 @@ export default function Routers() {
 				<Route path="/schedule-employee" element={<ScheduleEmployee />} />
 				<Route path="/schedule-employee/edit/:id" element={<ScheduleDetailEmployee />} />
 				<Route path="/Wash-MAC-AI" element={<AIPage />} />
+				<Route path="/add-admin" element={<SignUp/>}></Route>
 			</Route>
 			<Route path="/" element={<ProtectedRoute/>}>
 				<Route path="/login" element={<Login/>}></Route>
-				<Route path="/signup" element={<SignUp/>}></Route>
 			</Route>
+			<Route path="*" element={<NotFoundPage/>}></Route>
 		</Routes>
 	);
 }

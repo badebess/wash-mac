@@ -94,6 +94,20 @@ export default function Home() {
               >
                 <hr />
                 <NavLink
+                  to={'/add-admin'}
+                  style={{ color: "white" }}
+                >
+                  Add New Admin
+                </NavLink>
+              </div>
+              <div
+                className="sidebar-btn-wrapper"
+                style={{
+                  paddingBottom: "20px",
+                  marginTop:"0"
+                }}
+              >
+                <NavLink
                   style={{ color: "white" }}
                   onClick={() => authService.logOut()}
                 >

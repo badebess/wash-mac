@@ -24,7 +24,7 @@ export const Login = () => {
       authService.storeCredentialsToCookie({idToken, refreshToken});
       navigate('/');
     } catch (err) {
-      alert(err)
+      alert(`Your email and password is doesn't match !`)
       console.error(err);
     }
   };
@@ -36,7 +36,7 @@ export const Login = () => {
       authService.storeCredentialsToCookie({oauthAccessToken, refreshToken});
       navigate('/');
     } catch (err) {
-        alert(err);
+        alert(`Your email and password is doesn't match !` );
       console.error(err);
     }
   };
@@ -55,9 +55,6 @@ export const Login = () => {
           />
           <button className="btn btn-primary form-control mt-2" onClick={(e)=>signIn(e)}> SignIn</button>
           <Button className="btn btn-primary form-control mt-2" onClick={signInWithGoogle} icon={<GoogleOutlined />}> SignIn with google</Button>
-          <button className="btn btn-link mt-1"> 
-            <Link to="/signup">SignUp</Link>
-          </button>
         </form>
 
       </div>
