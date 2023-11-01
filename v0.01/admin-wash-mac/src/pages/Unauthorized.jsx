@@ -9,7 +9,9 @@ export function Unauthorized() {
 			<h3>Oopss, you're not in login</h3>
 			<img src={unauth} style={{width:"1000px"}}></img>
 			<h3>Please login first 😊</h3>
-			<Link to="/login">Login</Link>
+			<Link to="/login">
+				<button className="btn btn-primary mt-3">Login</button>
+			</Link>
 		</div>
 	);
 }
